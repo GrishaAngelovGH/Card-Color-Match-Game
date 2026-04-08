@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UNO — Card Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div id="turn-banner">Your Turn</div>
+
+  <div id="game-log"></div>
+
+  <div id="game-container">
+    <div id="table">
+      <div id="deck" class="table-card">
+        <span style="font-size:0.75rem;color:rgba(255,255,255,0.4);letter-spacing:0.05em;">DECK</span>
+      </div>
+      <div id="discard" class="table-card"></div>
+      <svg id="direction-indicator" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="50" cy="50" r="42" fill="none" stroke-width="1.5" stroke-dasharray="8 5" stroke-linecap="round" />
+      </svg>
+    </div>
+    <div id="players-container"></div>
+  </div>
+
+  <div class="controls">
+    <button id="btn-draw-card">Draw Card</button>
+    <button id="btn-rules">Rules</button>
+    <button id="btn-players">Players</button>
+    <button id="btn-restart" class="btn-primary">Restart</button>
+  </div>
+
+  <div class="gamepad-hint">
+    🎮 <b>PS4:</b> D-Pad/L1/R1: Select&nbsp;&nbsp;✕: Play&nbsp;&nbsp;○: Draw<br>
+    □: Rules&nbsp;&nbsp;△: Players
+  </div>
+
+  <!-- Rules Modal -->
+  <div id="modal-rules" class="modal">
+    <div class="modal-content">
+      <h2>How to Play</h2>
+      <ul>
+        <li>Match the top card by <b>color</b> or <b>number</b>.</li>
+        <li><b>Skip</b> — next player loses their turn.</li>
+        <li><b>Reverse</b> — change direction of play.</li>
+        <li><b>Draw Two</b> — next player draws 2 and is skipped.</li>
+        <li><b>Wild</b> — play on anything, choose a new color.</li>
+        <li><b>Wild Draw Four</b> — choose color, next player draws 4 and is skipped.</li>
+        <li>If you can't play, draw a card. You may play it if it matches.</li>
+        <li>First player to empty their hand wins!</li>
+      </ul>
+      <br>
+      <button onclick="document.getElementById('modal-rules').style.display='none'">Close</button>
+    </div>
+  </div>
+
+  <!-- Players Modal -->
+  <div id="modal-players" class="modal">
+    <div class="modal-content">
+      <h2>Manage Players</h2>
+      <div id="player-list-manage" style="margin-bottom:20px;display:flex;flex-direction:column;gap:8px;"></div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <input type="text" id="new-player-name" placeholder="Player name…">
+        <label>
+          <input type="checkbox" id="new-player-is-comp"> Computer Player
+        </label>
+        <button id="btn-add-player" class="btn-primary">Add Player</button>
+      </div>
+      <br>
+      <button onclick="document.getElementById('modal-players').style.display='none'">Close</button>
+    </div>
+  </div>
+
+  <!-- Wild Color Modal -->
+  <div id="modal-wild" class="modal">
+    <div class="modal-content" style="text-align:center;">
+      <h2>Choose a Color</h2>
+      <div id="color-picker">
+        <div class="color-btn" data-color="red"></div>
+        <div class="color-btn" data-color="blue"></div>
+        <div class="color-btn" data-color="green"></div>
+        <div class="color-btn" data-color="yellow"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Win Modal -->
+  <div id="modal-win" class="modal">
+    <div class="modal-content">
+      <div class="confetti">🎉</div>
+      <h2 style="font-size:1.3rem;color:#aaa;margin:8px 0 4px;">Winner!</h2>
+      <span class="winner-name" id="winner-name-text">Player</span>
+      <br><br>
+      <button id="btn-play-again" class="btn-primary" style="width:100%;">Play Again</button>
+    </div>
+  </div>
+
+  <script type="module" src="ui.js"></script>
+</body>
+</html>
