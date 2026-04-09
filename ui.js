@@ -140,6 +140,25 @@ class UI {
   // ── Input ────────────────────────────────────────────────────────────────
 
   handleGamepadAction(type) {
+    if (this.game.winner) {
+      if (type === ACTION_TYPES.PLAY_CARD) {
+        // Automatically focus and click the play again button visually
+        const btn = document.getElementById('btn-play-again');
+        if (btn) {
+          btn.style.transform = 'scale(0.95)';
+          setTimeout(() => {
+            btn.style.transform = '';
+            this.modalWin.style.display = 'none';
+            this.restartGame();
+          }, 150);
+        } else {
+          this.modalWin.style.display = 'none';
+          this.restartGame();
+        }
+      }
+      return;
+    }
+
     const cp = this.game.getCurrentPlayer();
     if (!cp || cp.isComputer) return; // FIX #9: block during computer turn
 
