@@ -606,6 +606,7 @@ class UI {
   }
 
   showWinner(player) {
+    this.gamepad.enabled = true; // explicitly re-enable gamepad so 'play again' can be triggered even if CPU won
     this.sounds.playWin();
     document.getElementById('winner-name-text').textContent = player.name;
     this.modalWin.style.display = 'flex';
