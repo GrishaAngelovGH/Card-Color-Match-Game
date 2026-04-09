@@ -501,13 +501,17 @@ class UI {
     // Dynamic elliptical positioning to prevent overlapping logic for large amount of players
     // Increases bounds with more players up to the limit of screen real estate.
     const rx = Math.max(340, Math.min(window.innerWidth / 2 - 150, 340 + count * 20));
-    const ry = Math.max(280, Math.min(window.innerHeight / 2 - 160, 290 + count * 15));
+    const ry = Math.max(320, Math.min(window.innerHeight / 2 - 140, 330 + count * 15));
 
     this.game.players.forEach((player, i) => {
       // Starts precisely at the bottom for first player -> +PI/2
       const angle = i * angleStep + Math.PI / 2;
       const x = Math.cos(angle) * rx;
-      const y = Math.sin(angle) * ry;
+      let yOffset = 0;
+      if (!player.isComputer && i === 0) {
+        yOffset = 20; // Move human player label down by 20px
+      }
+      const y = Math.sin(angle) * ry + yOffset;
 
       const isActive = i === this.game.currentPlayerIndex;
       const isHuman = !player.isComputer && !this.game.players.some((p, idx) => idx !== i && !p.isComputer);
