@@ -7,19 +7,19 @@ import { SoundManager } from './sounds.js';
 
 function cardLabel(card) {
   const v = card.value;
-  if (v === VALUES.SKIP)           return '⊘';
-  if (v === VALUES.REVERSE)        return '⇄';
-  if (v === VALUES.DRAW_TWO)       return '+2';
-  if (v === VALUES.WILD)           return '★';
+  if (v === VALUES.SKIP) return '⊘';
+  if (v === VALUES.REVERSE) return '⇄';
+  if (v === VALUES.DRAW_TWO) return '+2';
+  if (v === VALUES.WILD) return '★';
   if (v === VALUES.WILD_DRAW_FOUR) return '+4';
   return v;
 }
 
 function cardIconClass(card) {
-  if (card.value === VALUES.SKIP)           return 'icon-skip';
-  if (card.value === VALUES.REVERSE)        return 'icon-reverse';
-  if (card.value === VALUES.DRAW_TWO)       return 'icon-draw2';
-  if (card.value === VALUES.WILD)           return 'icon-wild';
+  if (card.value === VALUES.SKIP) return 'icon-skip';
+  if (card.value === VALUES.REVERSE) return 'icon-reverse';
+  if (card.value === VALUES.DRAW_TWO) return 'icon-draw2';
+  if (card.value === VALUES.WILD) return 'icon-wild';
   if (card.value === VALUES.WILD_DRAW_FOUR) return 'icon-draw4';
   return '';
 }
@@ -63,16 +63,16 @@ class UI {
     this.isAnimating = false; // Locks AI turns during animations
 
     // DOM refs
-    this.discardEl    = document.getElementById('discard');
-    this.deckEl       = document.getElementById('deck');
-    this.playersEl    = document.getElementById('players-container');
-    this.modalRules   = document.getElementById('modal-rules');
+    this.discardEl = document.getElementById('discard');
+    this.deckEl = document.getElementById('deck');
+    this.playersEl = document.getElementById('players-container');
+    this.modalRules = document.getElementById('modal-rules');
     this.modalPlayers = document.getElementById('modal-players');
-    this.modalWild    = document.getElementById('modal-wild');
-    this.modalWin     = document.getElementById('modal-win');
-    this.directionEl  = document.getElementById('direction-indicator');
-    this.turnBanner   = document.getElementById('turn-banner');
-    this.logEl        = document.getElementById('game-log');
+    this.modalWild = document.getElementById('modal-wild');
+    this.modalWin = document.getElementById('modal-win');
+    this.directionEl = document.getElementById('direction-indicator');
+    this.turnBanner = document.getElementById('turn-banner');
+    this.logEl = document.getElementById('game-log');
 
     this.init();
   }
@@ -91,6 +91,11 @@ class UI {
     document.getElementById('btn-draw-card').addEventListener('click', () => this.onDeckClick());
     document.getElementById('btn-rules').addEventListener('click', () => this.toggleModal(this.modalRules));
     document.getElementById('btn-players').addEventListener('click', () => { this.toggleModal(this.modalPlayers); this.renderPlayerListManage(); });
+    document.getElementById('btn-theme').addEventListener('click', () => {
+      document.body.classList.toggle('light-theme');
+      const isLight = document.body.classList.contains('light-theme');
+      document.getElementById('btn-theme').textContent = isLight ? '🌙' : '☀️';
+    });
     document.getElementById('btn-restart').addEventListener('click', () => this.restartGame());
     document.getElementById('btn-play-again').addEventListener('click', () => { this.modalWin.style.display = 'none'; this.restartGame(); });
 
@@ -417,12 +422,17 @@ class UI {
     this.playersEl.innerHTML = '';
     const count = this.game.players.length;
     const angleStep = (Math.PI * 2) / count;
-    const radius = 320;
+
+    // Dynamic elliptical positioning to prevent overlapping logic for large amount of players
+    // Increases bounds with more players up to the limit of screen real estate.
+    const rx = Math.max(340, Math.min(window.innerWidth / 2 - 150, 340 + count * 20));
+    const ry = Math.max(280, Math.min(window.innerHeight / 2 - 160, 290 + count * 15));
 
     this.game.players.forEach((player, i) => {
-      const angle = i * angleStep - Math.PI / 2;
-      const x = Math.cos(angle) * radius;
-      const y = Math.sin(angle) * radius;
+      // Starts precisely at the bottom for first player -> +PI/2
+      const angle = i * angleStep + Math.PI / 2;
+      const x = Math.cos(angle) * rx;
+      const y = Math.sin(angle) * ry;
 
       const isActive = i === this.game.currentPlayerIndex;
       const isHuman = !player.isComputer && !this.game.players.some((p, idx) => idx !== i && !p.isComputer);
@@ -432,7 +442,7 @@ class UI {
       const playerEl = document.createElement('div');
       playerEl.className = `player ${isActive ? 'active' : ''}`;
       playerEl.dataset.playerIndex = i;
-      playerEl.style.transform = `translate(${x}px, ${y}px)`;
+      playerEl.style.transform = `translate(calc(${x}px - 50%), calc(${y}px - 50%))`;
 
       // Name badge
       const nameEl = document.createElement('div');
@@ -507,21 +517,17 @@ class UI {
   updateTurnBanner(msg = null) {
     const cp = this.game.getCurrentPlayer();
     if (!cp) return;
+    this.turnBanner.className = ''; // reset classes
+
     if (msg) {
       this.turnBanner.textContent = msg;
-      this.turnBanner.style.background = 'rgba(72,149,239,0.2)';
-      this.turnBanner.style.borderColor = 'var(--blue)';
-      this.turnBanner.style.color = '#9dcfff';
+      this.turnBanner.classList.add('banner-msg');
     } else if (cp.isComputer) {
       this.turnBanner.textContent = `${cp.name} is thinking…`;
-      this.turnBanner.style.background = 'rgba(230,57,70,0.15)';
-      this.turnBanner.style.borderColor = 'var(--red)';
-      this.turnBanner.style.color = '#ffaaaa';
+      this.turnBanner.classList.add('banner-ai');
     } else {
       this.turnBanner.textContent = `Your Turn`;
-      this.turnBanner.style.background = 'rgba(82,183,136,0.18)';
-      this.turnBanner.style.borderColor = 'var(--green)';
-      this.turnBanner.style.color = '#a8f0cc';
+      this.turnBanner.classList.add('banner-player');
     }
   }
 
