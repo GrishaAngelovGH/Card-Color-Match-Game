@@ -102,11 +102,9 @@ class UI {
 
     document.getElementById('btn-add-player').addEventListener('click', () => {
       const nameInput = document.getElementById('new-player-name');
-      const isCompInput = document.getElementById('new-player-is-comp');
       if (nameInput.value.trim()) {
-        this.game.addPlayer(nameInput.value.trim(), isCompInput.checked);
+        this.game.addPlayer(nameInput.value.trim(), true);
         nameInput.value = '';
-        isCompInput.checked = false;
         this.render();
         this.renderPlayerListManage();
         this.checkComputerTurn();
