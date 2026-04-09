@@ -102,13 +102,21 @@ class UI {
 
     document.getElementById('btn-add-player').addEventListener('click', () => {
       const nameInput = document.getElementById('new-player-name');
-      if (nameInput.value.trim()) {
-        this.game.addPlayer(nameInput.value.trim(), true);
-        nameInput.value = '';
-        this.render();
-        this.renderPlayerListManage();
-        this.checkComputerTurn();
+      let newName = nameInput.value.trim();
+      
+      if (!newName) {
+        let cpuIdx = 1;
+        while (this.game.players.some(p => p.name === `Computer ${cpuIdx}`)) {
+          cpuIdx++;
+        }
+        newName = `Computer ${cpuIdx}`;
       }
+
+      this.game.addPlayer(newName, true);
+      nameInput.value = '';
+      this.render();
+      this.renderPlayerListManage();
+      this.checkComputerTurn();
     });
 
     document.querySelectorAll('.color-btn').forEach(btn => {
