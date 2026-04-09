@@ -1,0 +1,17 @@
+{
+  "name": "card-color-match",
+  "version": "1.0.0",
+  "description": "A fast-paced, browser-based color matching card game featuring intelligent CPU opponents, dynamic themes, and full gamepad support.",
+  "main": "constants.js",
+  "scripts": {
+    "start": "five-server . --port=3000",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "five-server": "^0.4.5"
+  }
+}

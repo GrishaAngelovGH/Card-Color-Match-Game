@@ -35,7 +35,4 @@ A fast-paced, colorful web-based card game built entirely from scratch with Vani
 - **✕ (Cross) / A**: Play selected card, confirm your wild color choice, or quick-start a restart from the Victory screen.
 - **○ (Circle) / B**: Draw a card from the central deck.
 - **□ (Square) / X**: Toggle the 'How to Play' rules screen.
-- **△ (Triangle) / Y**: Toggle the Player Management screen. 
-
-## Getting Started
-You don't need any complex environment packages or build tools! Simply clone or download the repository, double-click `index.html` to open it in any modern browser, and start matching!
+- **△ (Triangle) / Y**: Toggle the Player Management screen.
