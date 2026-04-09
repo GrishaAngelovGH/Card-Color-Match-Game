@@ -531,9 +531,11 @@ button:active {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
 }
 
-.color-btn:hover {
+.color-btn:hover,
+.color-btn.selected {
   transform: scale(1.2);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 0 3px #fff, 0 6px 20px rgba(0, 0, 0, 0.5);
+  border-color: transparent;
 }
 
 .color-btn[data-color="red"] {

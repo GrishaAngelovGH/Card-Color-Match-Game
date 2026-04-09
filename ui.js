@@ -61,6 +61,7 @@ class UI {
     this.drawnCardIndex = null;
     this.awaitingDrawPlay = false;
     this.isAnimating = false; // Locks AI turns during animations
+    this.wildColorIndex = 0;
 
     // DOM refs
     this.discardEl = document.getElementById('discard');
@@ -142,6 +143,25 @@ class UI {
     const cp = this.game.getCurrentPlayer();
     if (!cp || cp.isComputer) return; // FIX #9: block during computer turn
 
+    if (this.game.isWildChoosingColor) {
+      if (type === ACTION_TYPES.NEXT_CARD) {
+        this.wildColorIndex = (this.wildColorIndex + 1) % 4;
+        this.updateWildColorSelection();
+      } else if (type === ACTION_TYPES.PREV_CARD) {
+        this.wildColorIndex = (this.wildColorIndex + 3) % 4;
+        this.updateWildColorSelection();
+      } else if (type === ACTION_TYPES.PLAY_CARD) {
+        const colors = ['red', 'blue', 'green', 'yellow'];
+        const color = colors[this.wildColorIndex];
+        this.game.resolveWild(color);
+        this.modalWild.style.display = 'none';
+        this.log(`Color chosen: ${color}`, true);
+        this.render();
+        this.checkComputerTurn();
+      }
+      return;
+    }
+
     switch (type) {
       case ACTION_TYPES.NEXT_CARD:
         cp.selectedIndex = (cp.selectedIndex + 1) % cp.hand.length;
@@ -165,6 +185,17 @@ class UI {
         this.renderPlayerListManage();
         break;
     }
+  }
+
+  updateWildColorSelection() {
+    const btns = document.querySelectorAll('.color-btn');
+    btns.forEach((btn, i) => {
+      if (i === this.wildColorIndex) {
+        btn.classList.add('selected');
+      } else {
+        btn.classList.remove('selected');
+      }
+    });
   }
 
   onDeckClick() {
@@ -230,6 +261,8 @@ class UI {
     }
 
     if (this.game.isWildChoosingColor) {
+      this.wildColorIndex = 0;
+      this.updateWildColorSelection();
       this.modalWild.style.display = 'flex';
     }
 
