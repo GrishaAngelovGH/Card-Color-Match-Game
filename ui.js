@@ -10,7 +10,7 @@ function cardLabel(card) {
   if (v === VALUES.SKIP) return '⊘';
   if (v === VALUES.REVERSE) return '⇄';
   if (v === VALUES.DRAW_TWO) return '+2';
-  if (v === VALUES.WILD) return '★';
+  if (v === VALUES.WILD) return '';
   if (v === VALUES.WILD_DRAW_FOUR) return '+4';
   return v;
 }

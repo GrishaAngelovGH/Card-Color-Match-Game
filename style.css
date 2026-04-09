@@ -242,8 +242,17 @@ body {
   content: '+2';
 }
 
+.icon-wild {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: conic-gradient(from 45deg, var(--yellow) 0 25%, var(--green) 25% 50%, var(--red) 50% 75%, var(--blue) 75% 100%);
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+}
+
 .icon-wild::after {
-  content: '★';
+  display: none;
 }
 
 .icon-draw4::after {
