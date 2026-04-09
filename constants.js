@@ -51,5 +51,6 @@ export const ACTION_TYPES = {
   TOGGLE_RULES: 'toggle-rules',
   TOGGLE_PLAYERS: 'toggle-players',
   NEXT_CARD: 'next-card',
-  PREV_CARD: 'prev-card'
+  PREV_CARD: 'prev-card',
+  TOGGLE_UI: 'toggle-ui'
 };

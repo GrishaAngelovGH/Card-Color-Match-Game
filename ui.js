@@ -100,6 +100,8 @@ class UI {
     document.getElementById('btn-restart').addEventListener('click', () => this.restartGame());
     document.getElementById('btn-play-again').addEventListener('click', () => { this.modalWin.style.display = 'none'; this.restartGame(); });
 
+    document.getElementById('btn-toggle-ui').addEventListener('click', () => this.toggleUI());
+
     document.getElementById('btn-add-player').addEventListener('click', () => {
       const nameInput = document.getElementById('new-player-name');
       let newName = nameInput.value.trim();
@@ -209,6 +211,21 @@ class UI {
         this.toggleModal(this.modalPlayers);
         this.renderPlayerListManage();
         break;
+      case ACTION_TYPES.TOGGLE_UI:
+        this.toggleUI();
+        break;
+    }
+  }
+
+  toggleUI() {
+    const controls = document.querySelector('.controls');
+    const hint = document.querySelector('.gamepad-hint');
+    if (controls.style.display === 'none') {
+      controls.style.display = 'flex';
+      hint.style.display = 'block';
+    } else {
+      controls.style.display = 'none';
+      hint.style.display = 'none';
     }
   }
 

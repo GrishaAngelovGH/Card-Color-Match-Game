@@ -48,10 +48,12 @@ export class GamepadHandler {
         if (current[PS4_BUTTONS.TRIANGLE] && !prev[PS4_BUTTONS.TRIANGLE]) this.onAction(ACTION_TYPES.TOGGLE_PLAYERS);
         if ((current[PS4_BUTTONS.DPAD_RIGHT] && !prev[PS4_BUTTONS.DPAD_RIGHT]) || (current[PS4_BUTTONS.R1] && !prev[PS4_BUTTONS.R1])) this.onAction(ACTION_TYPES.NEXT_CARD);
         if ((current[PS4_BUTTONS.DPAD_LEFT] && !prev[PS4_BUTTONS.DPAD_LEFT]) || (current[PS4_BUTTONS.L1] && !prev[PS4_BUTTONS.L1])) this.onAction(ACTION_TYPES.PREV_CARD);
+        if (current[PS4_BUTTONS.SHARE] && !prev[PS4_BUTTONS.SHARE]) this.onAction(ACTION_TYPES.TOGGLE_UI);
       } else {
         // Still allow UI actions even when gameplay is locked
         if (current[PS4_BUTTONS.SQUARE] && !prev[PS4_BUTTONS.SQUARE]) this.onAction(ACTION_TYPES.TOGGLE_RULES);
         if (current[PS4_BUTTONS.TRIANGLE] && !prev[PS4_BUTTONS.TRIANGLE]) this.onAction(ACTION_TYPES.TOGGLE_PLAYERS);
+        if (current[PS4_BUTTONS.SHARE] && !prev[PS4_BUTTONS.SHARE]) this.onAction(ACTION_TYPES.TOGGLE_UI);
       }
 
       this.prevButtons[gp.index] = current;
